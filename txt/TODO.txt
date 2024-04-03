@@ -1,0 +1,4 @@
+1. Password should be set to empty if it fails vaildation  on both register and login
+2. Implement error handling! Learn howto deal with errors in PHP.
+3. Log errors to file (for production)
+4. 

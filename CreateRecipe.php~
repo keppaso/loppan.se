@@ -1,0 +1,46 @@
+<?php
+ob_start();
+require_once __DIR__ . "/src/Session.php";
+require_once __DIR__ . "/Xtream/BaseController.php";
+require_once __DIR__ . "/Xtream/View.php";
+require_once __DIR__ . "/Models/RecipeModel.php";
+require_once __DIR__ . "/src/DB.php";
+
+use Xtream\MVC\BaseController as Controller;
+use Xtream\MVC\View as View;
+
+$model = new RecipeModel();
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+{
+	$model->bind();
+	if ($model->validate())
+	{
+		/* connect to database and add receipe */
+		$db = new DB("localhost", "Xtream");
+		$db->setUsername("root");
+		$db->setPassword("rsklmn1o6");
+		$db->connect();
+		
+		$db->addReceipe($model);
+		$db->close();
+		
+		/* successfully added, notify user */
+		$_SESSION["RECEIPE_ADDED"] = true;
+		header("Location: Index.php");
+		exit(0);
+	}
+}
+
+/* Set up view for CreateReceipe.php */
+$view = new View();
+$view->setTitle("Skapa Recept");
+$view->setLayout("maintemplate.php");
+$view->setNavigation("nav.tpl.php");
+$view->setContent(__DIR__ . "/Views/create_recipe_view.php");
+
+/* Set up controller */
+$contr = new Controller($view);
+$contr->setModel($model); /* this adds to the view aswell */
+$contr->renderView();
+
+ob_end_flush();

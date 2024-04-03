@@ -1,0 +1,36 @@
+<div class="w3-container" style="text-align: center;">
+	<h1>Skapa recept</h1>
+	<p>Fyll i uppgifter här nedanför</p>
+	<hr class="custom">
+	<br>
+</div>
+<form method="post" enctype="multipart/form-data" action="../CreateRecipe.php">
+	<div class="w3-container">
+		<label>Namn</label>
+		<span class="error">* <?= $this->getModel()->nameError;?></span><br>
+		<input type="text" class="w3-input w3-round w3-light-grey" placeholder="<?= $this->getModel()::$place_holder_name; ?>" name="name" value="<?= $this->getModel()->name; ?>">
+		<br>
+		<label>Beskrivning</label>
+		<textarea class="w3-light-grey" placeholder="<?= $this->getModel()::$place_holder_description; ?>" name="description" rows="10" style="width: 100%; resize: both;"><?= $this->getModel()->description; ?></textarea>
+		<br>
+		<br>
+		<label for="tags">Taggar</label>
+		<span class="error">* <?= $this->getModel()->tagsError;?></span><br>
+		<textarea class="w3-light-grey" name="tags" placeholder="<?= $this->getModel()::$place_holder_tags; ?>" rows="10" style="width: 100%; resize: both;"><?= $this->getModel()->tags; ?></textarea>
+		<br>
+		<br>
+		<label for="ingredients">Ingredienser</label>
+		<span class="error">* <?= $this->getModel()->ingredientsError;?></span><br>
+		<textarea class="w3-light-grey" placeholder="<?= $this->getModel()::$place_holder_ingredients; ?>" name="ingredients" rows="10" style="width: 100%; resize: both;"><?= $this->getModel()->ingredients; ?></textarea>
+		<br>
+		<br>
+		<label for="todo">Förklaring</label>
+		<span class="error">* <?= $this->getModel()->todoError;?></span><br>
+		<br>
+		<textarea class="w3-light-grey" placeholder="<?= $this->getModel()::$place_holder_howto; ?>" name="todo" rows="10" style="width: 100%; resize: both;"><?= $this->getModel()->todo; ?></textarea>
+		<input type="file" id="file" name="file" accept="image/*" multiple>
+		<br>
+		<br>
+		<button type="submit" name="submit" value="Submit" class="w3-button w3-gray w3-block">Ladda upp recept</button>
+	</div>
+</form>

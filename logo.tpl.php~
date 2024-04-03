@@ -1,0 +1,13 @@
+<div class="w3-display-container w3-margin-right w3-margin-left">
+	<img src="resources/logo.jpg" class="w3-opacity w3-border-top w3-border-gray" style="width:100%; height:350px;">
+	<div class="w3-display-topright w3-container">
+		<h1 class="w3-text-white"><b>Recepthuset.se</b></h1>
+	</div>
+	<div class="w3-display-middle w3-container">
+		<form>
+          <label for="search" class="w3-text-white"><b>Sök recept</b></label><br>
+          <input class="w3-input w3-border w3-round-large" type="text" name="search">
+          <button class="w3-button w3-white w3-border w3-round-large">Sök</button>
+      </form>
+	</div>
+</div>

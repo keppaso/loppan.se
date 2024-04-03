@@ -1,0 +1,9 @@
+<?php
+/* This is the main entry point were apache should set our website first "page" to
+	From here we will go with a logic of MVC 
+*/
+
+//var_dump($_SERVER);
+echo "<pre>";
+print_r($_SERVER);
+echo "</pre>";

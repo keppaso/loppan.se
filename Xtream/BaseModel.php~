@@ -1,0 +1,12 @@
+<?php
+namespace Xtream\MVC
+class BaseModel()
+{
+	protected function getSafeHtml($data)
+	{
+	 	$data = trim($data);
+		$data = stripcslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+}

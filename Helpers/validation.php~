@@ -1,0 +1,118 @@
+<?php
+class Validation
+{
+	static function validateRegisterModel(&$model)
+	{
+		$validateError = false;
+		// NAME
+		if (empty($_POST["firstname"])) {
+			$model->NameErr = "Namn är obligatoriskt";
+			$validateError = true;
+		} else {
+			$model->Name = strip_input($_POST["firstname"]);
+	    	// check if name only contains letters and whitespace
+	    	if (!preg_match("/^[a-zA-Z-' ]*$/",$model->Name)) {
+	      	$model->NameErr = "Ogiltliga tecken i namnet";
+	      	$validateError = true;
+			}
+		}
+		// LASTNAME
+		if (empty($_POST["lastname"])) {
+			$model->LastnameErr = "Efternamn är obligatoriskt";
+			$validateError = true;
+		} else {
+			$model->Lastname = strip_input($_POST["lastname"]);
+	    	// check if name only contains letters and whitespace
+	    	if (!preg_match("/^[a-zA-Z-' ]*$/",$model->Lastname)) {
+	      	$model->LastnameErr = "Ogiltliga tecken i efternamnet";
+	      	$validateError = true;
+			}
+		}
+		
+		// EMAIL
+		if (empty($_POST["email"])) {
+			$model->EmailErr = "Email address är obligatorisk";
+			$validateError = true;
+		} else {
+			$model->Email = strip_input($_POST["email"]);
+	    	// check if e-mail address is well-formed
+	    	if (!filter_var($model->Email, FILTER_VALIDATE_EMAIL)) {
+	      	$model->EmailErr = "Ogiltligt format";
+	      	$validateError = true;
+			}
+		}
+		
+		// PASSWORD 1
+		if (empty($_POST["pwd1"])) {
+			$model->Password1Err = "Ett lösenord är obligatoriskt";
+			$validateError = true;
+		} else {
+			$model->Password1 = strip_input($_POST["pwd1"]);
+			if (strlen($model->Password1) < 5) {
+				$model->Password1Err = "Lösenordet måste vara minst 6 tecken";
+				$validateError = true;		
+			}
+		}
+		
+		// PASSWORD 2
+		if (empty($_POST["pwd2"])) {
+			$model->Password2Err = "Lösenordet måste upprepas";
+			$validateError = true;
+		} else {
+			$model->Password2 = strip_input($_POST["pwd2"]);
+			if (strlen($model->Password2) < 5) {
+				$model->Password2Err = "Lösenordet måste vara minst 6 tecken";
+				$validateError = true;	
+			}
+			elseif(strcmp($model->Password2, $model->Password1) != 0) {
+				$model->Password2Err = "Lösenorden matcher ej";
+				$validateError = true;
+			}
+		}
+		// if flag is true return false indicating validation failed. if not return true
+		if ($validateError) {return false;}
+		return true;
+	}
+	
+	
+	static function validateLoginModel(&$model)
+	{
+		$validateError = false;
+		
+		// EMAIL
+		if (empty($_POST["email"])) {
+			$model->setEmailErrorMessage("Email address är obligatorisk");
+			$validateError = true;
+		} else {
+			$model->setEmail(strip_input($_POST["email"]));
+	    	// check if e-mail address is well-formed
+	    	if (!filter_var($model->getEmail(), FILTER_VALIDATE_EMAIL)) {
+	      	$model->setEmailErrorMessage("Ogiltligt format");
+				$validateError = true;
+			}
+		}
+		
+		// PASSWORD 1
+		if (empty($_POST["password"])) {
+			$model->setPasswordErrorMessage("Ett lösenord är obligatoriskt");
+			$validateError = true;
+		} else {
+			$model->setPassword(strip_input($_POST["password"]));
+			if (strlen($model->getPassword()) < 5) {
+				$model->setPasswordErrorMessage("Lösenordet måste vara minst 6 tecken");
+				$validateError = true;
+			}
+		}
+		if ($validateError) {return false;}
+		return true;
+	}
+	
+	function strip_input ($data) 
+	{
+		$data = trim($data);
+		$data = stripcslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+}
+?>

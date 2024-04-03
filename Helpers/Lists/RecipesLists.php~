@@ -1,0 +1,18 @@
+<?php
+class RecipesLists
+{
+	public static $Rating = array("Dåligt" => 1, "Sådär" => 2, "Bra" => 3, "Jättebra" => 4, "Utmärkt" => 5);
+	
+	public static $Holidays = array("Jul", "Nyår", "Alla Hjärtans Dag", "Påsk", "Valborg", "Student", 
+											"Midsommar", "Kräftskiva", "Halloween", "Bröllop", "Dop", "Födelsedag");
+	
+	public static $Types = array("Bröd", "Bakverk", "Gryta", "Gratäng", "Grillat", "Paj", "Hamburgare", 
+											"Pasta", "Pizza", "Sallad", "Soppa");
+											
+	public static $Meals = array("Förätt", "Huvudrätt", "Efterrätt", "Frukost", "Brunch", "Mellanmål", 
+											"Tillbehör", "Buffé", "Tilltug");
+											
+	public static $Category = array("Fisk", "Kött", "Fågel", "Skaldjur", "Vegetariskt", "Veganskt", 
+												"Bak & Dessert", "Dryck");
+}
+?>

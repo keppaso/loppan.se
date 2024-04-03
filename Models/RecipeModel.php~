@@ -1,0 +1,183 @@
+<?php
+require_once __DIR__ . "/../src/ivalidate.php";
+require_once __DIR__ . "/../src/ibind.php";
+
+
+/* This class is a a data class for create_recipe_view.php that implements IBind and IValidate interface  */
+class RecipeModel implements IBind, IValidate
+{
+	/* Input fields */
+	public $name = "";
+	public $description = "";
+	public $tags = "";
+	public $todo = "";
+	public $ingredients = "";
+	
+	/*
+	$ingredients_collection
+	    [0] => Array
+        (
+            [0] => 1 tsk socker
+            [1] => 1
+            [2] => tsk
+            [3] => socker
+            [4] => 
+        )
+
+    [1] => Array
+        (
+            [0] => 2dl mjölk
+            [1] => 2
+            [2] => dl
+            [3] => mjölk
+            [4] => 
+        )
+	*/
+	private $ingredients_collection = array();
+	private $tags_collection = array();	
+	
+	/* arr[1] = "url" */
+	public $pictures = array();
+	
+	/* Error messages upon validation failure */
+	public $nameError = "";
+	public $tagsError = "";
+	public $todoError = "";
+	public $ingredientsError = "";
+	
+	
+	/* Placeholders for input fields */
+	public static $place_holder_name = "Namn på recept här...";
+	public static $place_holder_description = "En kort beskrivning av receptet...";
+	
+	public static $place_holder_tags = "Taggar används för att sortera recept efter sökningar.\n" .
+								"Taggar skall endast beskriva ditt recept. (En rad per tag)\nTex:\n" .
+								"middag\nlunch\npasta\nfalukorv\nkött\nhalloween\nmakaroner\nsnabbt";
+								
+	public static $place_holder_ingredients = "Här skrivs ingredienserna till hela receptet\n" .
+										 "1 rad per ingrediens där man MÅSTE börja med enhet föjt av namn på ingrediens.\n\n" .
+										 "Tex:\n1,5 tsk salt\n5 dl mjölk\n10 dl mjöl\n\nÄr där tillbehör till så kan\n" .
+										 "man separera dess med hjälp av [namn på tillbehör]\n för att sedan där under fortsätta";
+										 
+	public static $place_holder_howto = "Här görs en beskrivning av hur man gör.\n[namn på tillbehör] - separerar huvudrecept från " .
+								 "tillbehör\n[ugn=225] lägger till en notis om att ugnens värme skall värmas till 225 grader\n" .
+								 "[tid=45] lägger till en notis om att tillagningstiden är ca 45 minuter.\n" .
+								 "I övrigt tänk på att formatera texten fint med hjälp av nummer, tex:\n\n" .
+								 "1. beskrivning 1..................\nfortsättning på 1\n2. beskrivning av 2..............";
+								 
+
+	/* Available after validation */
+	public function getTags()
+	{
+		return $this->tags_collection;	
+	}	
+	
+	/* Available after validation */
+	public function getIngredients()
+	{
+		return $this->ingredients_collection;	
+	}	
+	
+	
+	/* Implementation of bind from IBind interface */		 
+	public function bind()
+	{
+		if (!isset($_POST)) {return false;}
+		foreach ($_POST as $key => $value)
+		{
+			switch($key) 
+			{
+				case "name":
+					$this->name = htmlspecialchars($value);
+				break;
+				
+				case "description":
+					$this->description = htmlspecialchars($value);
+				break;
+				
+				case "tags":
+					$this->tags = htmlspecialchars($value);
+				break;
+				
+				case "todo":
+					$this->todo = htmlspecialchars($value);
+				break;
+				
+				case "ingredients":
+					$this->ingredients = htmlspecialchars($value);
+				break;
+
+			}
+		}
+	}
+	
+	
+	/* Implementation of validate from IValidate interface */
+	public function validate()
+	{
+		$validateError = false;
+		
+		/* NAME VALIDATION */
+		if (empty($this->name) || strlen($this->name) < 3)
+		{
+			$this->$nameError = "Ett namn på receptet är ett måste (minst 3 bokstäver)!";
+			$validateError = true;
+		}
+		elseif(!preg_match("/^[0-9-a-zA-Z- \"\'\(\)\Å\å\Ä\ä\Ö\ö]*$/", $this->name)) 
+		{
+			$this->$nameError = "Ogiltliga tecken i receptets namn!";
+			$validateError = true;
+		}
+		
+		/* INGREDIENTS VALIDATION */
+		if (empty($this->ingredients))
+		{
+			$this->$ingredientsError = "Ingredienser måste anges!";
+			$validateError = true;
+		}
+		else
+		{
+			/* look for matches using regex with multiline flag */
+			/* pattern is looking for (amount) (unit) (ingredient with spaces) etc:
+			/*	1 tsp sugar or 1tsp sugar alt: (1) (tsp) (corn syrup)
+			/* IT IS NOT SAFE FOR HTML INPUT
+		 	*/
+			$pattern = "/^(\d*)\s*(\S*)\s+(.*)$/m";
+			$matches = array();
+			/* if less than one there is obviously something wrong because the ingredient field
+				is not empty */
+			if (preg_match_all($pattern, $this->ingredients, $this->ingredients_collection, PREG_SET_ORDER) < 1)
+			{
+				$this->$ingredientsError = "Ange minst 1 ingrediens i rätt format!";
+				$validateError = true;
+			}
+		}
+		
+		/* VALIDATION TAGS */
+		if (empty($this->tags))
+		{
+			$this->$tagsError = "Taggar måste anges!";
+			$validateError = true;
+		}
+		else
+		{
+			/* Tags passed validation just split it after newline and push to array */
+			$tag = strtok($this->tags, PHP_EOL);
+			while($tag !== false)
+			{
+				array_push($this->tags_collection, strtolower($tag));
+				$tag = strtok(PHP_EOL);
+			}
+		}
+		
+		/* VALIDATION TODO */
+		if (empty($this->todo))
+		{
+			$this->$todoError = "En beskrivning av hur man tillagar receptet är ett måste!";
+			$validateError = true;
+		}
+		
+		if ($validateError) {return false;}
+		return true;
+	}
+}
