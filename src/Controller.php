@@ -1,6 +1,5 @@
 <?php
-namespace Xtream;
-class BaseController
+class Controller
 {
 	private $_view = null;
 	private $_model = null;

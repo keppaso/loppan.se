@@ -1,4 +1,12 @@
-1. Password should be set to empty if it fails vaildation  on both register and login
-2. Implement error handling! Learn howto deal with errors in PHP.
-3. Log errors to file (for production)
-4. 
+1. i Settings under registreringar kan man ju efter första tablen ha en annan table
+    med dem registrerade, om du flyttar från förfrågningar till användare så syns dem med en gång.
+    lägg även till ta bort från respektive lista
+2. Fundera lite på hur man kan snygga upp varje index sida.
+    att separera POST datan från själva index init.
+3. Gå över layouten sida för sida, så att man så nära som möjligt kan få en fin layout
+    även på mobilen. just nu är det nog kaos
+3. backup
+4. Skapa en sida för att ändra hemsidans utseende. möjligheterna är enorma.
+5.backup
+6. visning av tända ljus, rullande på index eller på menyn till höger?
+7. register text behöver göras vit

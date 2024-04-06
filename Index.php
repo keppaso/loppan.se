@@ -1,19 +1,16 @@
 <?php
 ob_start();
 require_once __DIR__ . "/src/Session.php";
-require_once __DIR__ . "/Xtream/BaseController.php";
-require_once __DIR__ . "/src/IndexView.php";
-
-use Xtream\MVC\BaseController as Controller;
+require_once __DIR__ . "/src/Controller.php";
+require_once __DIR__ . "/src/View.php";
 
 
 /* Set up view for Index */
-$view = new IndexView();
+$view = new View();
 $view->setTitle("Huvudsida");
-$view->setLayout("maintemplate.php");
-$view->setNavigation("nav.tpl.php");
+$view->setLayout(__DIR__ . "/templates/maintemplate.php");
+$view->setNavigation(__DIR__ . "/templates/nav.tpl.php");
 $view->setContent(__DIR__ . "/Views/index_view.php");
-// $view->setLogo("logo.tpl.php");
 
 /* Set up controller and render view */
 $contr = new Controller($view);

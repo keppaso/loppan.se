@@ -20,5 +20,5 @@
 	<p class="w3-jumbo w3-opacity"><b>Annette's Minnessida</b></p>
 </div>
 <div class="w3-center">
-	 <img src="../resources/mamma_profil_cypern.jpg" class="w3-circle" alt="Alps"> 
+	 <img src="../resources/images/profil.jpg" class="w3-circle" alt="Alps"> 
 </div>

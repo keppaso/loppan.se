@@ -1,5 +1,0 @@
-1. Password should be set to empty if it fails vaildation  on both register and login
-2. Decide on how to save recipes, most likely in database but the structure.
-   it should be categorised... Maybe not a database but a json file?
-   a json file containing all absolute urls to the receipes including rating, tags and so forth.
-   and a seperate json file for each receipe, i like this idea....

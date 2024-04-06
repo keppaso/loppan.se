@@ -1,5 +1,6 @@
-<p>Logga in genom att ange E-Mail och lösenord</p>
-<h1>Logga in</h1>
+<div class="w3-text-white">
+	<p>Logga in genom att ange E-Mail och lösenord</p>
+	<h1>Logga in</h1>
 
 <!-- IF REGISTRATION FAILS WE MIGHT HAVE THESE SESSION VALUES ACTIVE. DISPLAY ERROR TO USER  -->
 <?php if (isset($_SESSION["FAILED_REGISTRATION"]) && ($_SESSION["FAILED_REGISTRATION"] == true)): ?>
@@ -38,3 +39,4 @@
    	<p>Har du glömt ditt Lösenord? <a href="#">Återställ</p>
    </div>
 </form>
+	</div>

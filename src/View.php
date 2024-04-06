@@ -1,5 +1,4 @@
 <?php
-namespace Xtream\MVC;
 class View {
 	private $_title = "";
 	private $_layout = "";
@@ -54,6 +53,6 @@ class View {
 	
 	public function render()
 	{
-		include_once $this->_layout;
+		include $this->_layout;
 	}
 }

@@ -14,6 +14,7 @@ class LoginModel implements IBind, IValidate
 	public $name = "";
 	public $lastname = "";
 	public $is_admin = false;
+	public $allow_gallery = false;
 	
 	/* Error messages upon validation failure */
 	public $emailError = "";

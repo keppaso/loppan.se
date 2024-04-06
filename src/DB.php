@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../Models/LoginModel.php";
-require_once __DIR__ . "/../Models/AddGalleryModel.php";
+require_once __DIR__ . "/../models/LoginModel.php";
+require_once __DIR__ . "/../models/AddGalleryModel.php";
 
 /* This class is a helper class for database access. contains a few useful functions for this website */
 class DB {
@@ -96,14 +96,50 @@ class DB {
 		$this->executeQuery("INSERT INTO Requests (name, lastname, email, password) VALUES(?,?,?,?)",
 								$model->name, $model->lastname, $model->email, $model->password1);
 	}
+
+	/*
+		Add a User to DB
+	*/
+	public function addUser($model)
+	{
+		$this->executeQuery("INSERT INTO Users (name, lastname, email, password, is_admin, allow_gallery) VALUES(?,?,?,?,?,?)",
+							$model->name, $model->lastname, $model->email, $model->password, (int)$model->is_admin, (int)$model->allow_gallery);
+	}
+
+
+	/*
+		removes a Request of registration from DB
+	*/
+	public function removeRequest($id)
+	{
+		$this->executeQuery("DELETE FROM Requests WHERE id=?", (int)$id);
+	}
+
+
+	public function getRequests()
+	{		
+		$fields = $this->executeQuery("SELECT * FROM Requests;");
+		$result = $fields->fetchAll();
+		
+		return $result;
+	}
 	
 	/*
 		Add a Heavinly message to DB
 	*/
 	public function addToHeaven($model)
 	{
-		$this->executeQuery("INSERT INTO Heaven (who, message) VALUES(?,?)",
-								$model->who, $model->message);
+		$this->executeQuery("INSERT INTO Heaven (who, message, candle, image) VALUES(?,?,?,?)",
+								$model->who, $model->message, (int)$model->candle, $model->image);
+	}
+
+	/*
+		Add candle to DB
+	*/
+	public function addCandle($who)
+	{
+		$this->executeQuery("INSERT INTO Heaven (who, message, candle, image) VALUES(?,?,?,?)",
+								$who, "", 1, "");
 	}
 
 	/*
